@@ -28,21 +28,21 @@ struct HittableList<'a> {
     objects: Vec<&'a dyn Hittable>,
 }
 
-impl HittableList<'_> {
+impl<'a> HittableList<'a> {
     fn clear(&mut self) {
         self.objects.drain(..);
         self.objects.shrink_to(0);
     }
 
-    // fn add<'a, 'b>(&'b mut self, object: &'a dyn Hittable) {
-    //     self.objects.push(object);
-    // }
+    fn add(&mut self, object: &'a dyn Hittable) {
+        self.objects.push(object);
+    }
 
-    // fn new(object: &dyn Hittable) -> Self {
-    //     let mut hittable_list = Self{objects: Vec::new()};
-    //     hittable_list.add(object);
-    //     hittable_list
-    // }
+    fn new(object: &'a dyn Hittable) -> Self {
+        let mut hittable_list = Self{objects: Vec::new()};
+        hittable_list.add(object);
+        hittable_list
+    }
 }
 
 impl Hittable for HittableList<'_> {
